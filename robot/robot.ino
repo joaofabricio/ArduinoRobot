@@ -18,6 +18,7 @@ Servo servoMotor;
 void setup() {
   Serial.begin(9600);
   pinMode(CC, OUTPUT);
+  pinMode(CC_REVERSE, OUTPUT);
   servoMotor.attach(SERVO);      // conecta o motor ao pino de controle
   servoMotor.write(ANGULO_MEIO);      // gira o servo ate o ponto do meio
 }
@@ -48,6 +49,11 @@ void loop() {
       break;
       
     }
+    
+    delay(500);
+    
+    digitalWrite(CC, LOW);
+    digitalWrite(CC_REVERSE, LOW);
     
   }
 
