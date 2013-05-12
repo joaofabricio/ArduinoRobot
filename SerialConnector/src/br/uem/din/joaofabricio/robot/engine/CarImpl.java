@@ -1,26 +1,24 @@
-package engine;
+package br.uem.din.joaofabricio.robot.engine;
 
-import connector.Connector;
+import br.uem.din.joaofabricio.robot.connector.SerialConnector;
+
 
 public class CarImpl implements Car {
 	
-	private Connector conn = new Connector("/dev/ttyUSB0");
+	private SerialConnector conn;
 	
 	private static final String GO_FORWARD = "1";
 	private static final String GO_BACKWARD = "2";
 	private static final String TURN_LEFT = "3";
 	private static final String TURN_RIGHT = "4";
 
+	public CarImpl(String serialPortName) {
+		conn = new SerialConnector(serialPortName);
+		conn.openConnection();
+	}
+
 	private void sendCommand(String command) {
-		try {
-			conn.openConnection();
-			conn.write(command);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			conn.closeConnection();
-		}
-		
+		conn.write(command);
 	}
 
 	@Override
@@ -54,4 +52,10 @@ public class CarImpl implements Car {
 		sendCommand(TURN_RIGHT);
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		conn.closeConnection();
+		super.finalize();
+	}
+	
 }

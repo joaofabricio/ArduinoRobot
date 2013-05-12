@@ -1,4 +1,4 @@
-package connector;
+package br.uem.din.joaofabricio.robot.connector;
 
 
 import static gnu.io.SerialPort.DATABITS_8;
@@ -13,9 +13,12 @@ import gnu.io.SerialPortEventListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Connector implements SerialPortEventListener {
+public class SerialConnector implements SerialPortEventListener {
 
 	private static final int TIME_OUT = 2000;
 
@@ -29,9 +32,9 @@ public class Connector implements SerialPortEventListener {
 
 	private String serialPortName;
 	
-//	private List<ConnectorListener> listeners = new ArrayList<ConnectorListener>();
+	private List<ConnectorListener> listeners = new ArrayList<ConnectorListener>();
 	
-	public Connector(String serialPortName) {
+	public SerialConnector(String serialPortName) {
 		this.serialPortName = serialPortName;
 	}
 
@@ -45,7 +48,7 @@ public class Connector implements SerialPortEventListener {
 							       STOPBITS_1, 
 							       PARITY_NONE);
 
-//				input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+				input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
 				output = new BufferedWriter(new OutputStreamWriter(serialPort.getOutputStream()));
 
 				serialPort.addEventListener(this);
@@ -76,29 +79,28 @@ public class Connector implements SerialPortEventListener {
 		}
 	}
 
-//	public void addConnectorListener(ConnectorListener listener){
-//		if (!listeners.contains(listener)){
-//			listeners.add(listener);
-//		}
-//	}
+	public void addConnectorListener(ConnectorListener listener){
+		if (!listeners.contains(listener)){
+			listeners.add(listener);
+		}
+	}
 
-//	public void removeConnectorListener(ConnectorListener listener){
-//		if (listeners.contains(listener)){
-//			listeners.remove(listener);
-//		}
-//	}
+	public void removeConnectorListener(ConnectorListener listener){
+		if (listeners.contains(listener)){
+			listeners.remove(listener);
+		}
+	}
 
 	private void notifyListeners(int value){
-//		for (ConnectorListener listener : listeners){
-//			listener.fireEvent(new ConnectorEvent(value));
-//		}
+		for (ConnectorListener listener : listeners){
+			listener.fireEvent(new ConnectorEvent(value));
+		}
 	}
 
 	public void write(String string) {
 		try {
 			output.write(string);
 			output.flush();
-			System.out.println(string);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
