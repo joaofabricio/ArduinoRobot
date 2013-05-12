@@ -13,6 +13,12 @@ const int ANGULO_MEIO = 90;
 const int ANGULO_DIREITA = 135;
 const int ANGULO_ESQUERDA = 45;
 
+const int DIR_MEIO = 0;
+const int DIR_ESQUERDA = 1;
+const int DIR_DIREITA = 2;
+
+int direcao = DIR_MEIO;
+
 Servo servoMotor;
 
 void setup() {
@@ -41,11 +47,23 @@ void loop() {
       break;
       
       case DIREITA:
-        servoMotor.write(ANGULO_MEIO);
+        if (direcao == DIR_MEIO) {
+          servoMotor.write(ANGULO_DIREITA);
+          direcao = DIR_DIREITA;
+        } else if (direcao == DIR_ESQUERDA) {
+          servoMotor.write(ANGULO_MEIO);
+          direcao = DIR_MEIO;
+        }
       break;
       
       case ESQUERDA:
-        servoMotor.write(ANGULO_MEIO);
+        if (direcao == DIR_MEIO) {
+          servoMotor.write(ANGULO_ESQUERDA);
+          direcao = DIR_ESQUERDA;
+        } else if (direcao == DIR_DIREITA) {
+          servoMotor.write(ANGULO_MEIO);
+          direcao = DIR_MEIO;
+        }
       break;
       
     }
