@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-const int DELAY = DELAY;
+const int DELAY = 500;
 
 const int SERVO = 2;
 const int CC = 3;
