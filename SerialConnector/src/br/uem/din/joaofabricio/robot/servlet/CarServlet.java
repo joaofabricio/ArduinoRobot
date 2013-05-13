@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.uem.din.joaofabricio.robot.engine.Car;
 import br.uem.din.joaofabricio.robot.engine.CarImpl;
 
-@WebServlet("/CarServlet")
+//@WebServlet("/CarServlet")
 public class CarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -32,22 +32,17 @@ public class CarServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String comm = request.getParameter("comm");
 
-		switch (comm) {
-		case FORWARD:
+		if (comm.equals(FORWARD)) {
 			car.goForward(4);
-			break;
-		case BACKWARD:
+		} else if (comm.equals(BACKWARD)) {
 			car.goBackward(4);
-			break;
-		case LEFT:
+		} else if (comm.equals(LEFT)) {
 			car.turnLeft();
-			break;
-		case RIGHT:
+		} else if (comm.equals(RIGHT)) {
 			car.turnRight();
-			break;
 		}
 		
-		response.sendRedirect("./");
+		response.sendRedirect(request.getContextPath());
 	}
 
 }
