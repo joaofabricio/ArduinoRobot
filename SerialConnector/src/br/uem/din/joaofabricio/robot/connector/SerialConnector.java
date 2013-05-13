@@ -38,7 +38,7 @@ public class SerialConnector implements SerialPortEventListener {
 		this.serialPortName = serialPortName;
 	}
 
-	public void openConnection(){
+	public void openConnection() {
 		try {
 			CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(serialPortName);
 			try {
@@ -55,9 +55,11 @@ public class SerialConnector implements SerialPortEventListener {
 				serialPort.notifyOnDataAvailable(true);
 			} catch (Exception e) {
 				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		} catch (NoSuchPortException e) {
 			System.err.println("Falha ao acessar " + serialPortName);
+			throw new RuntimeException(e);
 		}
 	}
 	
